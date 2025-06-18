@@ -7,8 +7,8 @@ local Signal = require(Packages.Signal)
 
 return {
 	BypassLockCooldown = Signal.new(),
-	AddMemeToPlayer = Signal.new(),
-	RemoveMemeFromPlayer = Signal.new(),
+	AddBikeToPlayer = Signal.new(),
+	RemoveBikeFromPlayer = Signal.new(),
 	IncrementCash = Signal.new(),
 
 	PlayerCollectedCash = Signal.new(),
@@ -17,7 +17,7 @@ return {
 	ResetServerLuck = Signal.new(),
 	IncreaseServerLuck = Signal.new(),
 
-	-- // Memes
-	RobuxBuyMeme = Signal.new(),
+	-- // bikes
+	RobuxBuyBike = Signal.new(),
 	DoubleOfflineCash = Signal.new(),
 }

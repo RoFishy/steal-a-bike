@@ -4,7 +4,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 -- // Util
 local Utils = script.Parent.Parent.Utils
 local DataUtil = require(Utils.DataUtil)
-local Meme = require(Utils.Meme)
+local Bike = require(Utils.Bike)
 
 -- // Remotes
 local Remotes = ReplicatedStorage.Remotes
@@ -26,10 +26,10 @@ function RewardHandler:Start()
 	RewardRemote.OnServerEvent:Connect(function(Player: Player)
 		local PlayerData = DataUtil:GetData(Player)
 		if PlayerData.ClaimedFreePet then
-			return Remotes.ShowNotification:FireClient(Player, "You have already claimed a free pet!")
+			return Remotes.ShowNotification:FireClient(Player, "You have already claimed a free bike!")
 		end
 		local PlayerBase = GetPlayerBase(Player)
-		local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+		local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 		if not OpenSlot then
 			return Remotes.ShowNotification:FireClient(Player, "Your base is full!")
 		end
@@ -37,12 +37,12 @@ function RewardHandler:Start()
 			return Remotes.ShowNotification:FireClient(Player, "You have not completed all of the requirements!")
 		end
 		DataUtil:SetFreePetClaimed(Player)
-		local _meme = Meme.new("Floppa", "Epic", CFrame.new(0, 0, 0))
-		_meme.Model:SetAttribute("ID", game:GetService("HttpService"):GenerateGUID(false))
-		_meme.PurchasePlayer = Player
-		_meme.CurrentStand = OpenSlot
-		task.cancel(_meme.CurrentMove)
-		_meme:AddToSlot(OpenSlot)
+		local _bike = Bike.new("Floppa", "Epic", CFrame.new(0, 0, 0))
+		_bike.Model:SetAttribute("ID", game:GetService("HttpService"):GenerateGUID(false))
+		_bike.PurchasePlayer = Player
+		_bike.CurrentStand = OpenSlot
+		task.cancel(_bike.CurrentMove)
+		_bike:AddToSlot(OpenSlot)
 		return Remotes.ShowNotification:FireClient(Player, "You have claimed a free Floppa!")
 	end)
 end

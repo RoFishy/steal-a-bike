@@ -45,16 +45,16 @@ local BaseManager = {}
 
 function BaseManager.Init()
 	BaseManager.Junk = {}
-	-- // Meme init
-	PhysicsService:RegisterCollisionGroup("Meme")
-	PhysicsService:CollisionGroupSetCollidable("Meme", "Meme", false)
+	-- // bike init
+	PhysicsService:RegisterCollisionGroup("Bike")
+	PhysicsService:CollisionGroupSetCollidable("Bike", "Bike", false)
 	PhysicsService:RegisterCollisionGroup("Floor")
-	PhysicsService:CollisionGroupSetCollidable("Meme", "Default", false)
-	PhysicsService:CollisionGroupSetCollidable("Meme", "Floor", true)
+	PhysicsService:CollisionGroupSetCollidable("Bike", "Default", false)
+	PhysicsService:CollisionGroupSetCollidable("Bike", "Floor", true)
 	Floor.CollisionGroup = "Floor"
 
 	PhysicsService:RegisterCollisionGroup("Player")
-	PhysicsService:CollisionGroupSetCollidable("Meme", "Player", false)
+	PhysicsService:CollisionGroupSetCollidable("Bike", "Player", false)
 
 	-- // Init bases
 	BaseManager.Bases = {}
@@ -416,7 +416,7 @@ function BaseManager:ResetBase(Base: string)
 	end
 	local DataUtil = require(Utils.DataUtil)
 
-	local CurrentMemes = DataUtil:GetCurrentMemes(self.Bases[Base].Owner)
+	local CurrentBikes = DataUtil:GetCurrentBikes(self.Bases[Base].Owner)
 
 	if self.Bases[Base].Owner then
 		for _, obj in self.Junk[self.Bases[Base].Owner] do
@@ -442,19 +442,19 @@ function BaseManager:ResetBase(Base: string)
 	end
 
 	SignGui:FindFirstChildOfClass("TextLabel").Text = `Unclaimed Base`
-	if not CurrentMemes then
+	if not CurrentBikes then
 		return
 	end
-	for ID, Meme in CurrentMemes do
-		local Name = Meme.Name
-		local Stand = Meme.Stand
-		Base.Slots[Stand]:SetAttribute("Meme", nil)
-		for _, _Meme in workspace:GetDescendants() do
-			if _Meme.Name == Name then
-				if _Meme:GetAttribute("ID") == ID then
+	for ID, Bike in CurrentBikes do
+		local Name = Bike.Name
+		local Stand = Bike.Stand
+		Base.Slots[Stand]:SetAttribute("Bike", nil)
+		for _, _Bike in workspace:GetDescendants() do
+			if _Bike.Name == Name then
+				if _Bike:GetAttribute("ID") == ID then
 					task.spawn(function()
 						pcall(function()
-							_Meme:Destroy()
+							_Bike:Destroy()
 						end)
 					end)
 				end

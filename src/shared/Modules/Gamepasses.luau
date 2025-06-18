@@ -91,7 +91,7 @@ return {
 	["Starter Pack"] = {
 		Id = 1243804235,
 		Callback = function(Player: Player)
-			local Meme = require(game:GetService("ServerScriptService").Utils.Meme)
+			local Bike = require(game:GetService("ServerScriptService").Utils.Bike)
 			local dataUtil = require(game:GetService("ServerScriptService").Utils.DataUtil)
 			dataUtil:IncrementCash(Player, 2_500)
 
@@ -102,18 +102,18 @@ return {
 			bat.Parent = Player.Backpack
 
 			local PlayerBase = GetPlayerBase(Player)
-			local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			if not OpenSlot then
 				return
 			end
 			local data = dataUtil:GetData(Player)
 			if data.ClaimedVIPPet ~= true then
-				local _meme = Meme.new("John Pork", "Legendary", CFrame.new(0, 0, 0))
-				_meme.Model:SetAttribute("ID", game:GetService("HttpService"):GenerateGUID(false))
-				_meme.PurchasePlayer = Player
-				_meme.CurrentStand = OpenSlot
-				task.cancel(_meme.CurrentMove)
-				_meme:AddToSlot(OpenSlot)
+				local _bike = Bike.new("John Pork", "Legendary", CFrame.new(0, 0, 0))
+				_bike.Model:SetAttribute("ID", game:GetService("HttpService"):GenerateGUID(false))
+				_bike.PurchasePlayer = Player
+				_bike.CurrentStand = OpenSlot
+				task.cancel(_bike.CurrentMove)
+				_bike:AddToSlot(OpenSlot)
 				dataUtil:SetVIPPetClaimed(Player)
 			end
 		end,

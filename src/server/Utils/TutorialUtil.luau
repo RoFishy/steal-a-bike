@@ -19,12 +19,12 @@ local Signals = require(Utils.Signals)
 local TutorialUtil = {}
 
 function TutorialUtil.new(Player: Player)
-	ShowTutorialFrame:FireClient(Player, `Buy a Meme from the conveyor!`)
+	ShowTutorialFrame:FireClient(Player, `Buy a Bike from the conveyor!`)
 	ShowBeam:FireClient(Player, Player.Character.HumanoidRootPart, workspace.ConveyorSystem.Spawn)
 
 	local oneDone = false
 
-	Signals.AddMemeToPlayer:Connect(function(_Player: Player, _)
+	Signals.AddBikeToPlayer:Connect(function(_Player: Player, _)
 		if _Player == Player then
 			HideBeam:FireClient(Player)
 			HideTutorialFrame:FireClient(Player)
@@ -40,14 +40,14 @@ function TutorialUtil.new(Player: Player)
 
 	local PlayerBase = BaseManager:GetBaseNameFromPlayer(Player)
 	local twoDone = false
-	local NoobSlot
+	local BikeSlot
 	for _, Slot in workspace.Bases[PlayerBase].Slots:GetChildren() do
-		if Slot:GetAttribute("Meme") then
-			NoobSlot = Slot
+		if Slot:GetAttribute("Bike") then
+			BikeSlot = Slot
 		end
 	end
-	ShowTutorialFrame:FireClient(Player, `Collect your cash from the Meme!`)
-	ShowBeam:FireClient(Player, Player.Character.HumanoidRootPart, NoobSlot.Collect)
+	ShowTutorialFrame:FireClient(Player, `Collect your cash from the Bike!`)
+	ShowBeam:FireClient(Player, Player.Character.HumanoidRootPart, BikeSlot.Collect)
 
 	Signals.PlayerCollectedCash:Connect(function(_Player: Player)
 		if _Player == Player then

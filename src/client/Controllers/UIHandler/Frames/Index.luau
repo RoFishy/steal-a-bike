@@ -33,7 +33,7 @@ local CloseButton = TopHolder.close
 local AmountFound = TopHolder.amountfound
 
 -- // Vars
-local PlayerMemeIndex = {}
+local PlayerBikeIndex = {}
 
 -- // Start
 local Index = {}
@@ -44,8 +44,8 @@ function Index.Init()
 	-- // Data
 	Replica.OnNew("PlayerData", function(_replica)
 		_replica:OnSet({ "Index" }, function(new_value)
-			PlayerMemeIndex = new_value
-			Index:SetMemes()
+			PlayerBikeIndex = new_value
+			Index:SetBikes()
 		end)
 	end)
 	Replica.RequestData()
@@ -85,45 +85,45 @@ function Index:Start()
 	)
 end
 
-function Index:SetMemes()
+function Index:SetBikes()
 	local TotalCollected = 0
-	for _, MemeFrame in NormalHolder:GetChildren() do
-		if not MemeFrame:IsA("Frame") then
+	for _, BikeFrame in NormalHolder:GetChildren() do
+		if not BikeFrame:IsA("Frame") then
 			continue
 		end
-		if table.find(PlayerMemeIndex.Normal, MemeFrame.Name) then
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-			MemeFrame.name.Text = MemeFrame.Name
+		if table.find(PlayerBikeIndex.Normal, BikeFrame.Name) then
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			BikeFrame.name.Text = BikeFrame.Name
 			TotalCollected += 1
 		else
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
-			MemeFrame.name.Text = "???"
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
+			BikeFrame.name.Text = "???"
 		end
 	end
-	for _, MemeFrame in GoldenHolder:GetChildren() do
-		if not MemeFrame:IsA("Frame") then
+	for _, BikeFrame in GoldenHolder:GetChildren() do
+		if not BikeFrame:IsA("Frame") then
 			continue
 		end
-		if table.find(PlayerMemeIndex.Golden, MemeFrame.Name) then
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-			MemeFrame.name.Text = MemeFrame.Name
+		if table.find(PlayerBikeIndex.Golden, BikeFrame.Name) then
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			BikeFrame.name.Text = BikeFrame.Name
 			TotalCollected += 1
 		else
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
-			MemeFrame.name.Text = "???"
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
+			BikeFrame.name.Text = "???"
 		end
 	end
-	for _, MemeFrame in DiamondHolder:GetChildren() do
-		if not MemeFrame:IsA("Frame") then
+	for _, BikeFrame in DiamondHolder:GetChildren() do
+		if not BikeFrame:IsA("Frame") then
 			continue
 		end
-		if table.find(PlayerMemeIndex.Diamond, MemeFrame.Name) then
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-			MemeFrame.name.Text = MemeFrame.Name
+		if table.find(PlayerBikeIndex.Diamond, BikeFrame.Name) then
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+			BikeFrame.name.Text = BikeFrame.Name
 			TotalCollected += 1
 		else
-			MemeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
-			MemeFrame.name.Text = "???"
+			BikeFrame.Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
+			BikeFrame.name.Text = "???"
 		end
 	end
 	AmountFound.Text = `{TotalCollected}/98`

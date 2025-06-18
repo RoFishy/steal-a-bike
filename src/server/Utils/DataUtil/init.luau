@@ -24,7 +24,7 @@ local Remotes = ReplicatedStorage.Remotes
 
 -- // Utils
 local Utils = script.Parent
-local Meme = require(Utils.Meme)
+local Bike = require(Utils.Bike)
 local Signals = require(Utils.Signals)
 
 -- // Store
@@ -36,8 +36,8 @@ local MAX_OFFLINE_EARNINGS_TIME = 10800
 
 -- // Var
 local Profiles = {} :: { [Player]: typeof(ProfileStore:StartSessionAsync()) }
-local MemeReferences = {}
-local PlayersPurchasingMemes = {}
+local BikeReferences = {}
+local PlayersPurchasingBikes = {}
 local Replicas = {}
 
 -- // local funcs
@@ -96,7 +96,7 @@ function DataUtil.new(Player: Player)
 				Profile.Data.Steals = 0
 			end
 			DataUtil:_SetupLeaderstats(Player)
-			DataUtil:LoadMemes(Player)
+			DataUtil:LoadBikes(Player)
 		else
 			Profile:EndSession()
 		end
@@ -206,48 +206,48 @@ function DataUtil:IncrementLockTime(Player: Player, Amount: number)
 	end
 end
 
-function DataUtil:GetPlayersPurchasingMemes()
-	return PlayersPurchasingMemes
+function DataUtil:GetPlayersPurchasingBikes()
+	return PlayersPurchasingBikes
 end
 
-function DataUtil:UpdatePlayersPurchasingMemes(NewTable: {})
-	PlayersPurchasingMemes = NewTable
+function DataUtil:UpdatePlayersPurchasingBikes(NewTable: {})
+	PlayersPurchasingBikes = NewTable
 end
 
-function DataUtil:AddMemeToPlayer(Player: Player, MemeObj)
+function DataUtil:AddBikeToPlayer(Player: Player, BikeObj)
 	local Profile = Profiles[Player]
 	if Profile then
-		Profile.Data.Slots[MemeObj.Model:GetAttribute("ID")] = {
-			Name = MemeObj.Name,
-			--Info = MemeObj.Info,
-			Rarity = MemeObj.Rarity,
-			Stand = MemeObj.CurrentStand.Name,
-			Special = MemeObj.Special,
+		Profile.Data.Slots[BikeObj.Model:GetAttribute("ID")] = {
+			Name = BikeObj.Name,
+			--Info = BikeObj.Info,
+			Rarity = BikeObj.Rarity,
+			Stand = BikeObj.CurrentStand.Name,
+			Special = BikeObj.Special,
 
 			-- // cleanup on game end:
-			--Model = MemeObj.Model,
+			--Model = BikeObj.Model,
 		}
-		MemeReferences[MemeObj.Model:GetAttribute("ID")] = MemeObj.Model
+		BikeReferences[BikeObj.Model:GetAttribute("ID")] = BikeObj.Model
 
 		local Table = Profile.Data.Index.Normal
-		if MemeObj.Special then
-			Table = Profile.Data.Index[MemeObj.Special]
+		if BikeObj.Special then
+			Table = Profile.Data.Index[BikeObj.Special]
 		end
-		if not table.find(Table, MemeObj.Name) then
+		if not table.find(Table, BikeObj.Name) then
 			local _replica = Replicas[Player]
-			table.insert(Table, MemeObj.Name)
+			table.insert(Table, BikeObj.Name)
 			_replica:Set({ "Index" }, Profile.Data.Index)
-			local Text = "You have discovered the " .. MemeObj.Name .. " Meme! It has been added to your Index."
-			if MemeObj.Special then
+			local Text = "You have discovered the " .. BikeObj.Name .. " Bike! It has been added to your Index."
+			if BikeObj.Special then
 				Text =
-					`You have discovered the {string.upper(MemeObj.Special)} {MemeObj.Name}! It has been added to your {MemeObj.Special} Index.`
+					`You have discovered the {string.upper(Bike.Special)} {BikeObj.Name}! It has been added to your {BikeObj.Special} Index.`
 			end
 			Remotes.ShowNotification:FireClient(Player, Text, Color3.fromRGB(0, 217, 255))
 		end
 	end
 end
 
-function DataUtil:LoadMemes(Player: Player)
+function DataUtil:LoadBikes(Player: Player)
 	local Profile = Profiles[Player]
 	if Profile then
 		local PlayerBase = GetPlayerBase(Player)
@@ -255,29 +255,29 @@ function DataUtil:LoadMemes(Player: Player)
 		local Slots = Profile.Data.Slots
 		local CurrentOfflineCash = 0
 		for ID, Slot in Slots do
-			local OpenSlot = PlayerBase.Slots:FindFirstChild(Slot.Stand) or Meme:GetOpenSlot(PlayerBase.Slots)
-			if OpenSlot and OpenSlot:GetAttribute("Meme") then
-				OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = PlayerBase.Slots:FindFirstChild(Slot.Stand) or Bike:GetOpenSlot(PlayerBase.Slots)
+			if OpenSlot and OpenSlot:GetAttribute("Bike") then
+				OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			end
 			if not OpenSlot then
 				continue
 			end
-			OpenSlot:SetAttribute("Meme", Slot.Name)
+			OpenSlot:SetAttribute("Bike", Slot.Name)
 			print(Slot.Special)
-			local _meme = Meme.new(Slot.Name, Slot.Rarity, CFrame.new(0, 0, 0), Slot.Special, true)
-			MemeReferences[ID] = _meme.Model
-			_meme.Model:SetAttribute("ID", ID)
-			_meme.PurchasePlayer = Player
-			_meme.CurrentStand = OpenSlot
-			--Profile.Data.Slots[ID].Model = _meme.Model
-			task.cancel(_meme.CurrentMove)
-			local offlineEarnings = self:CalculateOfflineEarnings(Player, _meme)
+			local _bike = Bike.new(Slot.Name, Slot.Rarity, CFrame.new(0, 0, 0), Slot.Special, true)
+			BikeReferences[ID] = _bike.Model
+			_bike.Model:SetAttribute("ID", ID)
+			_bike.PurchasePlayer = Player
+			_bike.CurrentStand = OpenSlot
+			--Profile.Data.Slots[ID].Model = _bike.Model
+			task.cancel(_bike.CurrentMove)
+			local offlineEarnings = self:CalculateOfflineEarnings(Player, _bike)
 			CurrentOfflineCash += offlineEarnings
-			_meme:AddToSlot(OpenSlot, true, offlineEarnings)
+			_bike:AddToSlot(OpenSlot, true, offlineEarnings)
 
 			Signals.DoubleOfflineCash:Connect(function(_Player: Player)
 				if Player == _Player then
-					_meme:SetOfflineCash(offlineEarnings, offlineEarnings * 2)
+					_bike:SetOfflineCash(offlineEarnings, offlineEarnings * 2)
 				end
 			end)
 		end
@@ -289,13 +289,13 @@ function DataUtil:LoadMemes(Player: Player)
 	end
 end
 
-function DataUtil:CalculateOfflineEarnings(Player: Player, MemeObj): number?
+function DataUtil:CalculateOfflineEarnings(Player: Player, BikeObj): number?
 	local Profile = Profiles[Player]
 	if Profile then
 		local LastJoin = Profile.Data.LastJoin
 		if LastJoin then
 			local Time = tick() - LastJoin
-			local Income = MemeObj.Info.Income
+			local Income = BikeObj.Info.Income
 				* (Time < MAX_OFFLINE_EARNINGS_TIME and Time or MAX_OFFLINE_EARNINGS_TIME)
 
 			return math.abs(math.ceil(Income / 2))
@@ -304,26 +304,26 @@ function DataUtil:CalculateOfflineEarnings(Player: Player, MemeObj): number?
 	return nil
 end
 
-function DataUtil:RemoveMemeFromPlayer(Player: Player, MemeObj, ID: string?)
+function DataUtil:RemoveBikeFromPlayer(Player: Player, BikeObj, ID: string?)
 	local Profile = Profiles[Player]
 	if ID then
 		Profile.Data.Slots[ID] = nil
 	else
-		if Profile and MemeObj.Model:GetAttribute("ID") then
-			Profile.Data.Slots[MemeObj.Model:GetAttribute("ID")] = nil
+		if Profile and BikeObj.Model:GetAttribute("ID") then
+			Profile.Data.Slots[BikeObj.Model:GetAttribute("ID")] = nil
 		end
 	end
 end
 
-function DataUtil:GetCurrentMemes(Player: Player)
+function DataUtil:GetCurrentBikes(Player: Player)
 	local Profile = Profiles[Player]
 	if Profile then
 		return Profile.Data.Slots
 	end
 end
 
-function DataUtil:GetCurrentMemeReferences()
-	return MemeReferences
+function DataUtil:GetCurrentBikeReferences()
+	return BikeReferences
 end
 
 function DataUtil:GetData(Player: Player): Types.UserData

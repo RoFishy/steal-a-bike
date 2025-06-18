@@ -118,8 +118,8 @@ return {
 		end,
 	},
 
-	-- // Memes
-	["Legendary Meme"] = {
+	-- // Bikes
+	["Legendary Bike"] = {
 		ProductId = 3305650625,
 		Callback = function(Player: Player)
 			-- // Services
@@ -129,12 +129,12 @@ return {
 			local Utils = ServerScriptService.Utils
 			local Signals = require(Utils.Signals)
 
-			Signals.RobuxBuyMeme:Fire(Player)
+			Signals.RobuxBuyBike:Fire(Player)
 			return
 		end,
 	},
 
-	["Mythical Meme"] = {
+	["Mythical Bike"] = {
 		ProductId = 3305650713,
 		Callback = function(Player: Player)
 			-- // Services
@@ -144,12 +144,12 @@ return {
 			local Utils = ServerScriptService.Utils
 			local Signals = require(Utils.Signals)
 
-			Signals.RobuxBuyMeme:Fire(Player)
+			Signals.RobuxBuyBike:Fire(Player)
 			return
 		end,
 	},
 
-	["Omega Meme"] = {
+	["Omega Bike"] = {
 		ProductId = 3305650771,
 		Callback = function(Player: Player)
 			-- // Services
@@ -159,12 +159,12 @@ return {
 			local Utils = ServerScriptService.Utils
 			local Signals = require(Utils.Signals)
 
-			Signals.RobuxBuyMeme:Fire(Player)
+			Signals.RobuxBuyBike:Fire(Player)
 			return
 		end,
 	},
 
-	["SECRET??? Meme"] = {
+	["SECRET??? Bike"] = {
 		ProductId = 3305650843,
 		Callback = function(Player: Player)
 			-- // Services
@@ -174,12 +174,12 @@ return {
 			local Utils = ServerScriptService.Utils
 			local Signals = require(Utils.Signals)
 
-			Signals.RobuxBuyMeme:Fire(Player)
+			Signals.RobuxBuyBike:Fire(Player)
 			return
 		end,
 	},
 
-	-- // Robux-only memes
+	-- // Robux-only Bikes
 	["Shrek"] = {
 		ProductId = 3306066042,
 		Callback = function(Player: Player)
@@ -190,11 +190,11 @@ return {
 
 			-- // Utils
 			local Utils = ServerScriptService.Utils
-			local Meme = require(Utils.Meme)
+			local Bike = require(Utils.Bike)
 
 			local PlayerBase = GetPlayerBase(Player)
 
-			local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			if not OpenSlot then
 				ReplicatedStorage.Remotes.ShowNotification:FireClient(
 					Player,
@@ -202,13 +202,13 @@ return {
 				)
 				return
 			end
-			OpenSlot:SetAttribute("Meme", "Shrek")
-			local _meme = Meme.new("Shrek", "ROBUX", CFrame.new(0, 0, 0))
-			_meme.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
-			_meme.PurchasePlayer = Player
-			_meme.CurrentStand = OpenSlot
-			task.cancel(_meme.CurrentMove)
-			_meme:AddToSlot(OpenSlot)
+			OpenSlot:SetAttribute("Bike", "Shrek")
+			local _bike = Bike.new("Shrek", "ROBUX", CFrame.new(0, 0, 0))
+			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
+			_bike.PurchasePlayer = Player
+			_bike.CurrentStand = OpenSlot
+			task.cancel(_bike.CurrentMove)
+			_bike:AddToSlot(OpenSlot)
 		end,
 	},
 
@@ -222,11 +222,11 @@ return {
 
 			-- // Utils
 			local Utils = ServerScriptService.Utils
-			local Meme = require(Utils.Meme)
+			local Bike = require(Utils.Bike)
 
 			local PlayerBase = GetPlayerBase(Player)
 
-			local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			if not OpenSlot then
 				ReplicatedStorage.Remotes.ShowNotification:FireClient(
 					Player,
@@ -234,13 +234,13 @@ return {
 				)
 				return
 			end
-			OpenSlot:SetAttribute("Meme", "DaBaby Car")
-			local _meme = Meme.new("DaBaby Car", "ROBUX", CFrame.new(0, 0, 0))
-			_meme.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
-			_meme.PurchasePlayer = Player
-			_meme.CurrentStand = OpenSlot
-			task.cancel(_meme.CurrentMove)
-			_meme:AddToSlot(OpenSlot)
+			OpenSlot:SetAttribute("Bike", "DaBaby Car")
+			local _bike = Bike.new("DaBaby Car", "ROBUX", CFrame.new(0, 0, 0))
+			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
+			_bike.PurchasePlayer = Player
+			_bike.CurrentStand = OpenSlot
+			task.cancel(_bike.CurrentMove)
+			_bike:AddToSlot(OpenSlot)
 		end,
 	},
 
@@ -258,11 +258,11 @@ return {
 
 			-- // Utils
 			local Utils = ServerScriptService.Utils
-			local Meme = require(Utils.Meme)
+			local Bike = require(Utils.Bike)
 
 			local PlayerBase = GetPlayerBase(Player)
 
-			local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			if not OpenSlot then
 				ReplicatedStorage.Remotes.ShowNotification:FireClient(
 					Player,
@@ -276,16 +276,16 @@ return {
 				Color3.fromRGB(255, 0, 0)
 			)
 
-			OpenSlot:SetAttribute("Meme", RandomMythical)
-			local _meme = Meme.new(RandomMythical, "Mythical", CFrame.new(0, 0, 0))
-			_meme.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
-			_meme.PurchasePlayer = Player
-			_meme.CurrentStand = OpenSlot
-			task.cancel(_meme.CurrentMove)
-			_meme:AddToSlot(OpenSlot)
+			OpenSlot:SetAttribute("Bike", RandomMythical)
+			local _bike = Bike.new(RandomMythical, "Mythical", CFrame.new(0, 0, 0))
+			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
+			_bike.PurchasePlayer = Player
+			_bike.CurrentStand = OpenSlot
+			task.cancel(_bike.CurrentMove)
+			_bike:AddToSlot(OpenSlot)
 		end,
 	},
-	["Meme Crate"] = {
+	["Bike Crate"] = {
 		ProductId = 3306060209,
 		Callback = function(Player: Player)
 			-- // Services
@@ -419,11 +419,11 @@ return {
 
 			-- // Utils
 			local Utils = ServerScriptService.Utils
-			local Meme = require(Utils.Meme)
+			local Bike = require(Utils.Bike)
 
 			local PlayerBase = GetPlayerBase(Player)
 
-			local OpenSlot = Meme:GetOpenSlot(PlayerBase.Slots)
+			local OpenSlot = Bike:GetOpenSlot(PlayerBase.Slots)
 			if not OpenSlot then
 				ReplicatedStorage.Remotes.ShowNotification:FireClient(
 					Player,
@@ -433,17 +433,17 @@ return {
 			end
 
 			ReplicatedStorage.Remotes.ShowNotification:FireAllClients(
-				`{Player.Name} has received a {ChosenRarity} {RandomSpawn} from the meme crate!`,
+				`{Player.Name} has received a {ChosenRarity} {RandomSpawn} from the bike crate!`,
 				Color3.fromRGB(255, 0, 0)
 			)
 
-			OpenSlot:SetAttribute("Meme", RandomSpawn)
-			local _meme = Meme.new(RandomSpawn, ChosenRarity, CFrame.new(0, 0, 0))
-			_meme.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
-			_meme.PurchasePlayer = Player
-			_meme.CurrentStand = OpenSlot
-			task.cancel(_meme.CurrentMove)
-			_meme:AddToSlot(OpenSlot)
+			OpenSlot:SetAttribute("Bike", RandomSpawn)
+			local _bike = Bike.new(RandomSpawn, ChosenRarity, CFrame.new(0, 0, 0))
+			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
+			_bike.PurchasePlayer = Player
+			_bike.CurrentStand = OpenSlot
+			task.cancel(_bike.CurrentMove)
+			_bike:AddToSlot(OpenSlot)
 		end,
 	},
 

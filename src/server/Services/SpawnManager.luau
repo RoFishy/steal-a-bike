@@ -13,7 +13,7 @@ local ShowNotification = Remotes.ShowNotification
 
 -- // Utils
 local Utils = script.Parent.Parent.Utils
-local Meme = require(Utils.Meme)
+local Bike = require(Utils.Bike)
 local Signals = require(Utils.Signals)
 
 -- // Objects
@@ -39,7 +39,7 @@ local SPECIAL_CHANCES = {
 }
 
 -- // Variables
-local CurrentMemes = {}
+local CurrentBikes = {}
 local CurrentServerLuck = 1
 
 -- // local function
@@ -130,8 +130,8 @@ function SpawnManager:Start()
 		end
 		if Hit.Parent:FindFirstChild("Humanoid") and not Players:GetPlayerFromCharacter(Hit.Parent) then
 			local Id = Hit.Parent:GetAttribute("ID")
-			CurrentMemes[Id]:Destroy()
-			CurrentMemes[Id] = nil
+			CurrentBikes[Id]:Destroy()
+			CurrentBikes[Id] = nil
 		end
 	end)
 
@@ -170,20 +170,21 @@ function SpawnManager:Start()
 		local RandomSpawn =
 			IndexDictionary(Spawns[Rarity]["Spawns"], math.random(1, GetDictionaryLength(Spawns[Rarity]["Spawns"])))
 		local Chance = GetSpecialChance()
+		Chance = nil
 
 		local ModelId = HttpService:GenerateGUID(false)
-		CurrentMemes[ModelId] =
-			Meme.new(GetNameFromValue(Spawns[Rarity]["Spawns"], RandomSpawn), Rarity, StartPart.CFrame, Chance)
-		CurrentMemes[ModelId].Model:SetAttribute("ID", ModelId)
+		CurrentBikes[ModelId] =
+			Bike.new(GetNameFromValue(Spawns[Rarity]["Spawns"], RandomSpawn), Rarity, StartPart.CFrame, Chance)
+		CurrentBikes[ModelId].Model:SetAttribute("ID", ModelId)
 
 		if Rarity == "Mythical" or Rarity == "Omega" or Rarity == "SECRET???" then
-			ShowNotification:FireAllClients(`A {Rarity} Meme has spawned!`, Color3.fromRGB(255, 230, 0))
+			ShowNotification:FireAllClients(`A {Rarity} Bike has spawned!`, Color3.fromRGB(255, 230, 0))
 		end
 	end
 end
 
-function SpawnManager:GetCurrentMemes()
-	return CurrentMemes
+function SpawnManager:GetCurrentBikes()
+	return CurrentBikes
 end
 
 function SpawnManager:GetRandomRarity(LuckMultiplier: number?)

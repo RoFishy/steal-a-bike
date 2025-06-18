@@ -73,7 +73,7 @@ usage:
 	end)
 	connection:Disconnect()
 
-	local connection = zone.memeTouched(function(meme)
+	local connection = zone.bikeTouched(function(bike)
 
 	end)
 	connection:Disconnect()
@@ -83,7 +83,7 @@ usage:
 
 local function TouchZone(model: Model)
 	local playerTouched = {}
-	local memeTouched = {}
+	local bikeTouched = {}
 	local nextTouch = {}
 	local connections = {}
 
@@ -98,8 +98,8 @@ local function TouchZone(model: Model)
 				for _, callback in pairs(playerTouched) do
 					task.defer(callback, player, ancestor)
 				end
-			elseif ancestor:HasTag("MemeInstance") then
-				for _, callback in pairs(memeTouched) do
+			elseif ancestor:HasTag("BikeInstance") then
+				for _, callback in pairs(bikeTouched) do
 					task.defer(callback, ancestor)
 				end
 			end
@@ -128,13 +128,13 @@ local function TouchZone(model: Model)
 				end,
 			}
 		end,
-		memeTouched = function(callback)
-			table.insert(memeTouched, callback)
+		bikeTouched = function(callback)
+			table.insert(bikeTouched, callback)
 			return {
 				Disconnect = function()
-					local i = table.find(memeTouched, callback)
+					local i = table.find(bikeTouched, callback)
 					if i then
-						table.remove(memeTouched, i)
+						table.remove(bikeTouched, i)
 					end
 				end,
 			}
@@ -153,21 +153,21 @@ local function TouchZone(model: Model)
 end
 
 -- // Init
-local Meme = {}
-Meme.__index = Meme
+local Bike = {}
+Bike.__index = Bike
 
-function Meme.new(Name: string, Type: string, SpawnLocation: CFrame, Special: "Golden" | "Diamond"?, LoadData: boolean?)
-	local MemeInfo = Spawns[Type]["Spawns"][Name]
+function Bike.new(Name: string, Type: string, SpawnLocation: CFrame, Special: "Golden" | "Diamond"?, LoadData: boolean?)
+	local BikeInfo = Spawns[Type]["Spawns"][Name]
 	local RarityFolder = SpawnsFolder:FindFirstChild(Type)
 	assert(RarityFolder, "Rarity folder not found")
 
-	local MemeModel = RarityFolder:FindFirstChild(Name)
-	assert(MemeModel, `Meme {Name} not found in {Type} folder`)
+	local BikeModel = RarityFolder:FindFirstChild(Name)
+	assert(BikeModel, `Bike {Name} not found in {Type} folder`)
 
-	local self = setmetatable({}, Meme)
-	self.Model = MemeModel:Clone()
+	local self = setmetatable({}, Bike)
+	self.Model = BikeModel:Clone()
 	self.Name = Name
-	self.Info = table.clone(MemeInfo)
+	self.Info = table.clone(BikeInfo)
 	self.Special = Special
 	self.PurchasePlayer = nil
 	self.CurrentEarned = 0
@@ -190,8 +190,8 @@ function Meme.new(Name: string, Type: string, SpawnLocation: CFrame, Special: "G
 
 	self.Model.Humanoid.WalkSpeed = 6
 
-	self:SetCollisionGroup("Meme")
-	self.Model:AddTag("MemeInstance")
+	self:SetCollisionGroup("Bike")
+	self.Model:AddTag("BikeInstance")
 
 	self.Model.Parent = workspace
 	self.Model:PivotTo(SpawnLocation)
@@ -199,7 +199,7 @@ function Meme.new(Name: string, Type: string, SpawnLocation: CFrame, Special: "G
 	self:MoveTo(workspace.ConveyorSystem.End.Position)
 
 	if Special and (Special == "Golden" or Special == "Diamond") then
-		self:SetupSpecialMeme(LoadData)
+		self:SetupSpecialBike(LoadData)
 	end
 
 	self:SetupDisplayInfo()
@@ -212,7 +212,7 @@ function Meme.new(Name: string, Type: string, SpawnLocation: CFrame, Special: "G
 	return self
 end
 
-function Meme:SetCollisionGroup(NewGroup: string)
+function Bike:SetCollisionGroup(NewGroup: string)
 	for _, Item: BasePart in self.Model:GetDescendants() do
 		if Item:IsA("BasePart") then
 			Item.CollisionGroup = NewGroup
@@ -220,7 +220,7 @@ function Meme:SetCollisionGroup(NewGroup: string)
 	end
 end
 
-function Meme:SetupSpecialMeme(LoadData: boolean?)
+function Bike:SetupSpecialBike(LoadData: boolean?)
 	local Folder = SpecialFolder:FindFirstChild(self.Special)
 	assert(Folder, "Special folder not found")
 
@@ -239,27 +239,27 @@ function Meme:SetupSpecialMeme(LoadData: boolean?)
 		Effect:Clone().Parent = self.RootPart
 	end
 
-	self.Model.Parent = workspace[self.Special .. "Memes"]
+	self.Model.Parent = workspace[self.Special .. "Bikes"]
 	--local Highlight = Folder:FindFirstChild("Highlight"):Clone()
 	--Highlight.Parent = self.Model
 
 	if not LoadData then
 		ShowNotification:FireAllClients(
-			`A {string.upper(self.Special)} {self.Name} Meme has spawned!`,
+			`A {string.upper(self.Special)} {self.Name} Bike has spawned!`,
 			SpecialInfo[self.Special].Color
 		)
 	end
 end
 
-function Meme:GetSlotByIndex(Index: number, Slots: Folder)
+function Bike:GetSlotByIndex(Index: number, Slots: Folder)
 	return Slots:FindFirstChild("Slot" .. Index)
 end
 
-function Meme:GetOpenSlot(Slots: Folder)
+function Bike:GetOpenSlot(Slots: Folder)
 	local SlotSpaces = Slots:GetChildren()
 	for i = 1, #SlotSpaces do
 		local CurrentSlot = self:GetSlotByIndex(i, Slots)
-		if CurrentSlot:GetAttribute("Meme") then
+		if CurrentSlot:GetAttribute("Bike") then
 			continue
 		end
 		return CurrentSlot
@@ -267,7 +267,7 @@ function Meme:GetOpenSlot(Slots: Folder)
 	return nil
 end
 
-function Meme:GetNewPrompt()
+function Bike:GetNewPrompt()
 	local ProximityPrompt = Instance.new("ProximityPrompt")
 	ProximityPrompt.Parent = self.RootPart
 	ProximityPrompt.RequiresLineOfSight = false
@@ -277,7 +277,7 @@ function Meme:GetNewPrompt()
 	return ProximityPrompt
 end
 
-function Meme:Steal(StealPlayer: Player)
+function Bike:Steal(StealPlayer: Player)
 	local _StealPlayerBase = GetPlayerBase(StealPlayer)
 	local _OpenSlot = self:GetOpenSlot(_StealPlayerBase.Slots)
 	if not _OpenSlot then
@@ -286,7 +286,7 @@ function Meme:Steal(StealPlayer: Player)
 	end
 
 	if not self.PurchasePlayer then
-		warn("Attempted to steal Meme. No PurchasePlayer found", StealPlayer.Name)
+		warn("Attempted to steal Bike. No PurchasePlayer found", StealPlayer.Name)
 		return
 	end
 
@@ -294,7 +294,7 @@ function Meme:Steal(StealPlayer: Player)
 	local OriginalPlayerBase = GetPlayerBase(OriginalPlayer)
 
 	if StealPlayer:GetAttribute("Stealing") then
-		ShowNotification:FireClient(StealPlayer, "You're already stealing a meme!")
+		ShowNotification:FireClient(StealPlayer, "You're already stealing a bike!")
 		return
 	end
 
@@ -325,7 +325,7 @@ function Meme:Steal(StealPlayer: Player)
 	StealPlayer.Character.Humanoid.WalkSpeed *= 0.8
 
 	self.BeingStolen = true
-	Signal.RemoveMemeFromPlayer:Fire(OriginalPlayer, self)
+	Signal.RemoveBikeFromPlayer:Fire(OriginalPlayer, self)
 
 	pcall(function()
 		local collectAt = self.CurrentStand.Collect.Attachment
@@ -393,7 +393,7 @@ function Meme:Steal(StealPlayer: Player)
 				Sound:Destroy()
 			end)
 
-			OpenSlot:SetAttribute("Meme", self.Name)
+			OpenSlot:SetAttribute("Bike", self.Name)
 
 			self.RootPart.CanCollide = true
 			self.RootPart.Anchored = true
@@ -450,7 +450,7 @@ function Meme:Steal(StealPlayer: Player)
 					Sound:Destroy()
 				end)
 
-				OpenSlot:SetAttribute("Meme", self.Name)
+				OpenSlot:SetAttribute("Bike", self.Name)
 
 				self.RootPart.CanCollide = true
 				self.RootPart.Anchored = true
@@ -498,7 +498,7 @@ function Meme:Steal(StealPlayer: Player)
 			end
 
 			StealPlayer:SetAttribute("Stealing", nil)
-			OpenSlot:SetAttribute("Meme", self.Name)
+			OpenSlot:SetAttribute("Bike", self.Name)
 
 			self.PurchasePlayer = StealPlayer
 			self.CurrentStand = OpenSlot
@@ -540,12 +540,12 @@ function Meme:Steal(StealPlayer: Player)
 				local OpenSlot = self:GetOpenSlot(Slots)
 				if not OpenSlot then
 					warn(
-						"Could not return stolen meme to original player because they don't have an open slot. thief left"
+						"Could not return stolen bike to original player because they don't have an open slot. thief left"
 					)
 					self:Destroy()
 					return
 				end
-				OpenSlot:SetAttribute("Meme", self.Name)
+				OpenSlot:SetAttribute("Bike", self.Name)
 
 				self.PurchasePlayer = OriginalPlayer
 				self.CurrentStand = OpenSlot
@@ -573,11 +573,11 @@ function Meme:Steal(StealPlayer: Player)
 			local Slots = OriginalPlayerBase.Slots
 			local OpenSlot = self:GetOpenSlot(Slots)
 			if not OpenSlot then
-				warn("Could not return stolen meme to original player because they don't have an open slot. thief died")
+				warn("Could not return stolen Bike to original player because they don't have an open slot. thief died")
 				self:Destroy()
 				return
 			end
-			OpenSlot:SetAttribute("Meme", self.Name)
+			OpenSlot:SetAttribute("Bike", self.Name)
 
 			self.PurchasePlayer = OriginalPlayer
 			self.CurrentStand = OpenSlot
@@ -592,7 +592,7 @@ function Meme:Steal(StealPlayer: Player)
 	)
 end
 
-function Meme:SetOfflineCash(AddAmount: number, FinalAmount: number)
+function Bike:SetOfflineCash(AddAmount: number, FinalAmount: number)
 	local Slot = self.CurrentStand
 
 	local CollectButton: Part = Slot.Collect
@@ -603,7 +603,7 @@ function Meme:SetOfflineCash(AddAmount: number, FinalAmount: number)
 	OfflineAttachment.Billboard.Frame.Visible = true
 end
 
-function Meme:AddToSlot(Slot: Model, LoadData: boolean?, OfflineIncome: number?, value: boolean?)
+function Bike:AddToSlot(Slot: Model, LoadData: boolean?, OfflineIncome: number?, value: boolean?)
 	if not self.PurchasePlayer then
 		self.PurchasePlayer = Players:FindFirstChild(Slot.Parent.Parent:GetAttribute("Owner"))
 	end
@@ -629,16 +629,16 @@ function Meme:AddToSlot(Slot: Model, LoadData: boolean?, OfflineIncome: number?,
 	end
 
 	if self.BeingStolen then
-		warn("Meme not added to slot because it's being stolen", self.PurchasePlayer)
+		warn("Bike not added to slot because it's being stolen", self.PurchasePlayer)
 		return
 	end
 
 	self:CleanupConnects()
 	self.CurrentStand = Slot
-	Slot:SetAttribute("Meme", self.Name)
+	Slot:SetAttribute("Bike", self.Name)
 
 	if LoadData == nil then
-		Signal.AddMemeToPlayer:Fire(self.PurchasePlayer, self)
+		Signal.AddBikeToPlayer:Fire(self.PurchasePlayer, self)
 	end
 
 	local cframe, size = self.Model:GetBoundingBox()
@@ -768,11 +768,11 @@ function Meme:AddToSlot(Slot: Model, LoadData: boolean?, OfflineIncome: number?,
 	self.Prompt.Triggered:Once(function(Player: Player)
 		if Player == self.PurchasePlayer then
 			if SellPrice == 0 then
-				ShowNotification:FireClient(Player, "You cannot sell a Robux meme!")
+				ShowNotification:FireClient(Player, "You cannot sell a Robux bike!")
 				return
 			end
 			Signal.IncrementCash:Fire(Player, SellPrice)
-			Signal.RemoveMemeFromPlayer:Fire(self.PurchasePlayer, self)
+			Signal.RemoveBikeFromPlayer:Fire(self.PurchasePlayer, self)
 			local sound = SoundService.CashCollect:Clone()
 			sound.Parent = self.RootPart
 			sound:Play()
@@ -793,7 +793,7 @@ function Meme:AddToSlot(Slot: Model, LoadData: boolean?, OfflineIncome: number?,
 	end)
 end
 
-function Meme:SetupConnections()
+function Bike:SetupConnections()
 	local ProximityPrompt = self:GetNewPrompt()
 	ProximityPrompt.ActionText = "Buy"
 	ProximityPrompt.ObjectText = self.Name .. " $" .. self.Info.Price
@@ -820,10 +820,10 @@ function Meme:SetupConnections()
 	self.CurrentPos = nil
 	table.insert(
 		self.Connections,
-		Signal.RobuxBuyMeme:Connect(function(Player: Player)
+		Signal.RobuxBuyBike:Connect(function(Player: Player)
 			local DataUtil = require(script.Parent.DataUtil)
-			local PlayersPurchasingMemes = DataUtil:GetPlayersPurchasingMemes()
-			local NewTable = PlayersPurchasingMemes
+			local PlayersPurchasingBikes = DataUtil:GetPlayersPurchasingBikes()
+			local NewTable = PlayersPurchasingBikes
 			local CurrentId = self.Model:GetAttribute("ID")
 
 			if not NewTable[CurrentId] then
@@ -852,7 +852,7 @@ function Meme:SetupConnections()
 					end
 
 					local OpenSlot = self:GetOpenSlot(Slots)
-					OpenSlot:SetAttribute("Meme", self.Name)
+					OpenSlot:SetAttribute("Bike", self.Name)
 					self.CurrentStand = OpenSlot
 
 					TogglePrompt:FireClient(Player, ProximityPrompt, false)
@@ -889,14 +889,14 @@ function Meme:SetupConnections()
 							) * Vector3.new(1, 0, 1)
 						).Magnitude
 						if distance < 3 then
-							warn("Fallback triggered - meme close but not detected")
+							warn("Fallback triggered - bike close but not detected")
 							self:AddToSlot(OpenSlot)
 							humConnect:Disconnect()
 						end
 					end)
 
-					CollectZone.memeTouched(function(meme)
-						if meme == self.Model then
+					CollectZone.bikeTouched(function(bike)
+						if bike == self.Model then
 							if Player.Parent ~= Players then
 								self:Destroy()
 								return
@@ -921,7 +921,7 @@ function Meme:SetupConnections()
 					return
 				end
 			end
-			DataUtil:UpdatePlayersPurchasingMemes(NewTable)
+			DataUtil:UpdatePlayersPurchasingBikes(NewTable)
 		end)
 	)
 	table.insert(
@@ -951,19 +951,19 @@ function Meme:SetupConnections()
 				if self.Redirects then
 					BeingRedirected = true
 					TogglePrompt:FireAllClients(ProximityPrompt, true)
-					self.CurrentStand:SetAttribute("Meme", nil)
+					self.CurrentStand:SetAttribute("Bike", nil)
 					humConnect:Disconnect()
 					moveConn:Disconnect()
 				else
-					ShowNotification:FireClient(Player, "This meme is not able to be redirected!")
+					ShowNotification:FireClient(Player, "This bike is not able to be redirected!")
 					return
 				end
-				--self.CurrentStand:SetAttribute("Meme", nil)
+				--self.CurrentStand:SetAttribute("Bike", nil)
 			end
 
 			if Cash >= self.Info.Price then
 				local OpenSlot = self:GetOpenSlot(Slots)
-				OpenSlot:SetAttribute("Meme", self.Name)
+				OpenSlot:SetAttribute("Bike", self.Name)
 				self.CurrentStand = OpenSlot
 				Signal.IncrementCash:Fire(Player, -self.Info.Price)
 
@@ -1013,14 +1013,14 @@ function Meme:SetupConnections()
 						) * Vector3.new(1, 0, 1)
 					).Magnitude
 					if distance < 3 then
-						warn("Fallback triggered - meme close but not detected")
+						warn("Fallback triggered - bike close but not detected")
 						self:AddToSlot(OpenSlot)
 						humConnect:Disconnect()
 					end
 				end)
 
-				CollectZone.memeTouched(function(meme)
-					if meme == self.Model then
+				CollectZone.bikeTouched(function(bike)
+					if bike == self.Model then
 						if Player.Parent ~= Players then
 							self:Destroy()
 							return
@@ -1059,12 +1059,12 @@ function Meme:SetupConnections()
 				err.Ended:Once(function()
 					err:Destroy()
 				end)
-				ShowNotification:FireClient(Player, "You do not have enough cash to purchase this meme!")
-				if Products[self.Rarity .. " Meme"] then
-					MarketplaceService:PromptProductPurchase(Player, Products[self.Rarity .. " Meme"].ProductId)
+				ShowNotification:FireClient(Player, "You do not have enough cash to purchase this bike!")
+				if Products[self.Rarity .. " Bike"] then
+					MarketplaceService:PromptProductPurchase(Player, Products[self.Rarity .. " Bike"].ProductId)
 					local DataUtil = require(script.Parent.DataUtil)
-					local PlayersPurchasingMemes = DataUtil:GetPlayersPurchasingMemes()
-					local NewTable = PlayersPurchasingMemes
+					local PlayersPurchasingBikes = DataUtil:GetPlayersPurchasingBikes()
+					local NewTable = PlayersPurchasingBikes
 					for ID, _Players in NewTable do
 						for _, _Player in _Players do
 							if _Player == Player then
@@ -1076,7 +1076,7 @@ function Meme:SetupConnections()
 						NewTable[self.Model:GetAttribute("ID")] = {}
 					end
 					table.insert(NewTable[self.Model:GetAttribute("ID")], Player)
-					DataUtil:UpdatePlayersPurchasingMemes(NewTable)
+					DataUtil:UpdatePlayersPurchasingBikes(NewTable)
 				end
 
 				return
@@ -1085,7 +1085,7 @@ function Meme:SetupConnections()
 	)
 end
 
-function Meme:SetupDisplayInfo()
+function Bike:SetupDisplayInfo()
 	local Price = self.Info.Price
 	local Income = self.Info.Income
 
@@ -1101,7 +1101,7 @@ function Meme:SetupDisplayInfo()
 	MainFrame:FindFirstChild("Name").Text = self.Name
 end
 
-function Meme:MoveTo(Position: Vector3)
+function Bike:MoveTo(Position: Vector3)
 	local Humanoid = self.Model:FindFirstChild("Humanoid")
 
 	if self.CurrentMove and coroutine.status(self.CurrentMove) ~= "dead" then
@@ -1122,7 +1122,7 @@ function Meme:MoveTo(Position: Vector3)
 	end
 end
 
-function Meme:CleanupConnects()
+function Bike:CleanupConnects()
 	pcall(function()
 		for _, Connection in self.Connections do
 			Connection:Disconnect()
@@ -1136,13 +1136,13 @@ function Meme:CleanupConnects()
 	end)
 end
 
-function Meme:Cleanup()
+function Bike:Cleanup()
 	pcall(function()
 		task.cancel(self.CurrentMove)
 	end)
 	if self.PurchasePlayer then
 		self.PurchasePlayer = nil
-		self.CurrentStand:SetAttribute("Meme", nil)
+		self.CurrentStand:SetAttribute("Bike", nil)
 
 		local CollectButton = self.CurrentStand.Collect
 		CollectButton.Attachment.Billboard.Frame.amount.Text = `$0`
@@ -1155,10 +1155,10 @@ function Meme:Cleanup()
 	self:CleanupConnects()
 end
 
-function Meme:Destroy()
+function Bike:Destroy()
 	self.DestroyConn:Disconnect()
 	self:Cleanup()
 	self.Model:Destroy()
 end
 
-return Meme
+return Bike

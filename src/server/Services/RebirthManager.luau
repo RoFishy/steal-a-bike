@@ -34,11 +34,11 @@ function RebirthManager:Start()
 			DataUtil:IncrementLockTime(Player, Rebirths[PlayerData.Rebirths + 1].Rewards.LockBoost)
 			DataUtil:IncrementRebirths(Player, 1)
 
-			local CurrentMemes = DataUtil:GetCurrentMemes(Player)
-			local CurrentMemeReferences = DataUtil:GetCurrentMemeReferences()
-			for ID, Meme in CurrentMemes do
-				DataUtil:RemoveMemeFromPlayer(Player, Meme, ID)
-				CurrentMemeReferences[ID]:Destroy()
+			local CurrentBikes = DataUtil:GetCurrentBikes(Player)
+			local CurrentBikeReferences = DataUtil:GetCurrentBikeReferences()
+			for ID, Bike in CurrentBikes do
+				DataUtil:RemoveBikeFromPlayer(Player, Bike, ID)
+				CurrentBikeReferences[ID]:Destroy()
 			end
 			for _, slot in GetPlayerBase(Player).Slots:GetChildren() do
 				local collectAt = slot.Collect.Attachment

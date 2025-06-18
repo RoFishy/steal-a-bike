@@ -8,14 +8,14 @@ export type UserData = {
 	ClaimedVIPPet: boolean,
 }
 
-export type MemeSpawn = {
+export type BikeSpawn = {
 	Price: number,
 	Income: number, -- income per second
 }
 
 export type Spawn = {
 	Rarity: number,
-	Spawns: { [string]: MemeSpawn },
+	Spawns: { [string]: BikeSpawn },
 }
 
 export type NPCDialogueOption = {

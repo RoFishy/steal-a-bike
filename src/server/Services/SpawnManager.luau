@@ -27,7 +27,7 @@ local TimersScreen = workspace.Spawn.Timers.Screen
 local GuaranteedRequirements = {
 	Mythical = 900,
 	Legendary = 300,
-	Omega = 1800,
+	Celestial = 1800,
 	["SECRET???"] = 3600,
 }
 
@@ -177,7 +177,7 @@ function SpawnManager:Start()
 			Bike.new(GetNameFromValue(Spawns[Rarity]["Spawns"], RandomSpawn), Rarity, StartPart.CFrame, Chance)
 		CurrentBikes[ModelId].Model:SetAttribute("ID", ModelId)
 
-		if Rarity == "Mythical" or Rarity == "Omega" or Rarity == "SECRET???" then
+		if Rarity == "Mythical" or Rarity == "Celestial" or Rarity == "SECRET???" then
 			ShowNotification:FireAllClients(`A {Rarity} Bike has spawned!`, Color3.fromRGB(255, 230, 0))
 		end
 	end
@@ -200,7 +200,7 @@ function SpawnManager:GetRandomRarity(LuckMultiplier: number?)
 			adjustedSpawns[name].Rarity = value.Rarity * math.min(LuckMultiplier, 2)
 		elseif name == "Mythical" then
 			adjustedSpawns[name].Rarity = value.Rarity * LuckMultiplier
-		elseif name == "Omega" or name == "SECRET???" then
+		elseif name == "Celestial" or name == "SECRET???" then
 			adjustedSpawns[name].Rarity = value.Rarity * (LuckMultiplier * 1.5)
 		end
 	end

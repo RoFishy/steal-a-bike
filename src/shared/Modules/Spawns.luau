@@ -106,7 +106,7 @@ return {
 	["Celestial"] = {
 		Rarity = 0.25,
 		Spawns = {
-			["F41"] = {
+			["F4i"] = {
 				Price = 3000000,
 				Income = 20000,
 			},

@@ -316,6 +316,8 @@ function Bike:Steal(StealPlayer: Player)
 	self:Cleanup()
 
 	StealPlayer:SetAttribute("Stealing", true)
+	--self:MountPlayer(StealPlayer)
+
 	local OGWalkSpeed = StealPlayer.Character.Humanoid.WalkSpeed
 	local speedOffset = StealPlayer.Character.Humanoid:GetAttribute("SpeedAddition")
 	if speedOffset then
@@ -350,7 +352,7 @@ function Bike:Steal(StealPlayer: Player)
 			StealPlayer.Character.HumanoidRootPart.CFrame
 			--+ (StealPlayer.Character.HumanoidRootPart.CFrame.LookVector * 3)
 			+ (StealPlayer.Character.HumanoidRootPart.CFrame.UpVector * 4)
-		) * CFrame.Angles(math.rad(90), 0, 0)
+		) * CFrame.Angles(0, math.rad(90), math.rad(90))
 	)
 
 	local Weld = Instance.new("WeldConstraint")
@@ -399,6 +401,7 @@ function Bike:Steal(StealPlayer: Player)
 			self.RootPart.Anchored = true
 
 			Weld:Destroy()
+			--self:UnmountPlayer(StealPlayer)
 			self.CurrentStand = OpenSlot
 			TogglePrompt:FireAllClients(self.Prompt, true)
 			self.BeingStolen = false
@@ -456,6 +459,7 @@ function Bike:Steal(StealPlayer: Player)
 				self.RootPart.Anchored = true
 
 				Weld:Destroy()
+				--self:UnmountPlayer(StealPlayer)
 				self.CurrentStand = OpenSlot
 				TogglePrompt:FireAllClients(self.Prompt, true)
 				self.BeingStolen = false
@@ -508,6 +512,7 @@ function Bike:Steal(StealPlayer: Player)
 			self.RootPart.AssemblyLinearVelocity = Vector3.new(0, 0, 0)
 			self.RootPart.AssemblyAngularVelocity = Vector3.new(0, 0, 0)
 			Weld:Destroy()
+			--self:UnmountPlayer(StealPlayer)
 
 			self.BeingStolen = false
 			self:AddToSlot(OpenSlot)
@@ -552,6 +557,7 @@ function Bike:Steal(StealPlayer: Player)
 				self.RootPart.Anchored = true
 				self.RootPart.CanCollide = true
 
+				--self:UnmountPlayer(StealPlayer)
 				Weld:Destroy()
 				self.BeingStolen = false
 				self:AddToSlot(OpenSlot)
@@ -584,12 +590,65 @@ function Bike:Steal(StealPlayer: Player)
 			self.RootPart.Anchored = true
 			self.RootPart.CanCollide = true
 
+			--self:UnmountPlayer(StealPlayer)
 			Weld:Destroy()
 			self.BeingStolen = false
 			self:AddToSlot(OpenSlot)
 			TogglePrompt:FireAllClients(self.Prompt, true)
 		end)
 	)
+end
+
+function Bike:MountPlayer(Player: Player)
+	local Character = Player.Character or Player.CharacterAdded:Wait()
+	local Humanoid = Character.Humanoid
+	Character:SetAttribute("WalkSpeed", Humanoid.WalkSpeed)
+	Player:SetAttribute("OnBike", true)
+	self.RootPart.Anchored = false
+	self.RootPart:SetNetworkOwner(Player)
+
+	Humanoid.WalkSpeed = 0
+	Humanoid.UseJumpPower = true
+	Humanoid.JumpPower = 0
+	Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+
+	local Seat = Instance.new("Seat")
+	Seat:PivotTo(self.RootPart.CFrame * CFrame.new(0, 0.75, 0) * CFrame.new(self.RootPart.CFrame.LookVector * 1))
+	Seat.Parent = self.Model
+	Seat.Transparency = 1
+	Seat:Sit(Humanoid)
+
+	local WeldConstraint = Instance.new("WeldConstraint")
+	WeldConstraint.Parent = Seat
+	WeldConstraint.Part0 = self.RootPart
+	WeldConstraint.Part1 = Seat
+
+	--Character:PivotTo(self.RootPart.CFrame * CFrame.new(0, 3, 0) * CFrame.new(self.RootPart.CFrame.LookVector * 2))
+	--local WeldConstraint = Instance.new("WeldConstraint")
+	--WeldConstraint.Parent = Character.HumanoidRootPart
+	--WeldConstraint.Part0 = Character.HumanoidRootPart
+	--WeldConstraint.Part1 = self.RootPart
+end
+
+function Bike:UnmountPlayer(Player: Player)
+	local Character = Player.Character or Player.CharacterAdded:Wait()
+	local Humanoid = Character.Humanoid
+	Player:SetAttribute("OnBike", false)
+	self.RootPart:SetNetworkOwner(nil)
+
+	Humanoid:ChangeState(Enum.HumanoidStateType.None)
+	Humanoid.WalkSpeed = Character:GetAttribute("WalkSpeed") or 20
+	Humanoid.JumpPower = 50
+
+	local WeldConstraint = Character.HumanoidRootPart:FindFirstChild("WeldConstraint")
+	local Seat = self.Model:FindFirstChild("Seat")
+
+	if Seat then
+		Seat:Destroy()
+	end
+	if WeldConstraint then
+		WeldConstraint:Destroy()
+	end
 end
 
 function Bike:SetOfflineCash(AddAmount: number, FinalAmount: number)
@@ -875,6 +934,7 @@ function Bike:SetupConnections()
 					end
 
 					self.Model.Humanoid.WalkSpeed = 10
+					--self:MountPlayer(Player)
 
 					self:MoveTo(PlayerBase.Components.CollectZone.CollectPart.PrimaryPart.Position)
 					self.PurchasePlayer = Player
@@ -904,10 +964,9 @@ function Bike:SetupConnections()
 							pcall(function()
 								task.cancel(self.CurrentMove)
 							end)
-
+							humConnect:Disconnect()
 							self.CurrentStand = OpenSlot
 							self:AddToSlot(OpenSlot)
-							humConnect:Disconnect()
 							moveConn:Disconnect()
 						end
 					end)
@@ -915,6 +974,7 @@ function Bike:SetupConnections()
 					humConnect = {
 						Disconnect = function()
 							CollectZone:Destroy()
+							--self:UnmountPlayer(Player)
 						end,
 					}
 				else
@@ -999,6 +1059,7 @@ function Bike:SetupConnections()
 				end
 
 				self.Model.Humanoid.WalkSpeed = 10
+				--self:MountPlayer(Player)
 
 				self:MoveTo(PlayerBase.Components.CollectZone.CollectPart.PrimaryPart.Position)
 				self.PurchasePlayer = Player
@@ -1030,14 +1091,15 @@ function Bike:SetupConnections()
 						end)
 
 						self.CurrentStand = OpenSlot
-						self:AddToSlot(OpenSlot)
 						humConnect:Disconnect()
+						self:AddToSlot(OpenSlot)
 						moveConn:Disconnect()
 					end
 				end)
 
 				humConnect = {
 					Disconnect = function()
+						--self:UnmountPlayer(Player)
 						CollectZone:Destroy()
 					end,
 				}

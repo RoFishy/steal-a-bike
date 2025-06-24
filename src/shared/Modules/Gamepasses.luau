@@ -14,7 +14,7 @@ end
 
 return {
 	["Cloud"] = {
-		Id = 1246323898,
+		Id = 1274287132,
 		Callback = function(Player: Player)
 			local Tool = GamepassItems["Flying Cloud"]:Clone()
 			Tool.Parent = Player.Backpack
@@ -23,7 +23,7 @@ return {
 		end,
 	},
 	["Sledgehammer"] = {
-		Id = 1244387266,
+		Id = 1274426978,
 		Callback = function(Player: Player)
 			local Tool = GamepassItems.Sledgehammer:Clone()
 			Tool.Parent = Player.Backpack
@@ -32,7 +32,7 @@ return {
 		end,
 	},
 	["Admin"] = {
-		Id = 1244393091,
+		Id = 1274180916,
 		Callback = function(Player: Player)
 			local hdMain = require(game:GetService("ReplicatedStorage"):WaitForChild("HDAdminSetup")):GetMain()
 			local hd = hdMain:GetModule("API")
@@ -47,28 +47,28 @@ return {
 		end,
 	},
 	["Galaxy Bat"] = {
-		Id = 1244447495,
+		Id = 1273599049,
 		Callback = function(Player: Player)
 			local bat = GamepassItems["Galaxy Bat"]:Clone()
 			bat.Parent = Player.Backpack
 		end,
 	},
 	["Remote Lock"] = {
-		Id = 1245956074,
+		Id = 1274574728,
 		Callback = function(Player: Player)
 			local Tool = GamepassItems["Remote Lock"]:Clone()
 			Tool.Parent = Player.Backpack
 		end,
 	},
 	["VIP"] = {
-		Id = 1244153811,
+		Id = 1274562729,
 		Callback = function(Player: Player)
 			Player:SetAttribute("VIP", true)
 			Player.Character.Humanoid.WalkSpeed *= 1.25
 		end,
 	},
 	["Laser Gun"] = {
-		Id = 1248083905,
+		Id = 1273913204,
 		Callback = function(Player: Player)
 			local Tool = GamepassItems["Laser Gun"]:Clone()
 			Tool.Parent = Player.Backpack
@@ -77,19 +77,19 @@ return {
 		end,
 	},
 	["x2 Cash"] = {
-		Id = 1244580681,
+		Id = 1273885277,
 		Callback = function(Player: Player)
 			Player:SetAttribute("2xCash", true)
 		end,
 	},
 	["x2 Speed"] = {
-		Id = 1245248277,
+		Id = 1274416964,
 		Callback = function(Player: Player)
 			Player.Character.Humanoid.WalkSpeed *= 2
 		end,
 	},
 	["Starter Pack"] = {
-		Id = 1243804235,
+		Id = 1274275109,
 		Callback = function(Player: Player)
 			local Bike = require(game:GetService("ServerScriptService").Utils.Bike)
 			local dataUtil = require(game:GetService("ServerScriptService").Utils.DataUtil)

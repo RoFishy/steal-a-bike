@@ -3,7 +3,7 @@ return function(registry)
 		"rarity",
 		registry.Cmdr.Util.MakeEnumType(
 			"Rarity",
-			{ "Common", "Rare", "Epic", "Legendary", "Mythical", "Omega", "SECRET???" }
+			{ "Common", "Rare", "Epic", "Legendary", "Mythical", "Celestial", "SECRET???" }
 		)
 	)
 end

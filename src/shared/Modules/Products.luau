@@ -21,7 +21,7 @@ local speedConn = nil
 return {
 	-- // Bases
 	BypassLockCooldown = {
-		ProductId = 3299780200,
+		ProductId = 3314400072,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -34,7 +34,7 @@ return {
 	},
 
 	["Unlock Base"] = {
-		ProductId = 3304667372,
+		ProductId = 3314400318,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -46,7 +46,7 @@ return {
 	},
 
 	["Teleport To Base"] = {
-		ProductId = 3306101611,
+		ProductId = 3314400308,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -59,7 +59,7 @@ return {
 	},
 
 	["Lock Base 15 Minutes"] = {
-		ProductId = 3306061444,
+		ProductId = 3314400186,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -72,7 +72,7 @@ return {
 
 	-- // Conveyor SPeed
 	["10m Conveyor Speed Boost"] = {
-		ProductId = 3307238948,
+		ProductId = 3314400341,
 		Callback = function(Player: Player)
 			local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -94,8 +94,8 @@ return {
 			return
 		end,
 	},
-	["20m Conveyor Speed Boost"] = {
-		ProductId = 3307239001,
+	["Twenty Min Conveyor Speed Boost"] = {
+		ProductId = 3314400354,
 		Callback = function(Player: Player)
 			local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -120,7 +120,7 @@ return {
 
 	-- // Bikes
 	["Legendary Bike"] = {
-		ProductId = 3305650625,
+		ProductId = 3314400163,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -135,7 +135,7 @@ return {
 	},
 
 	["Mythical Bike"] = {
-		ProductId = 3305650713,
+		ProductId = 3314400270,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -149,8 +149,8 @@ return {
 		end,
 	},
 
-	["Omega Bike"] = {
-		ProductId = 3305650771,
+	["Celestial Bike"] = {
+		ProductId = 3314400290,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -165,7 +165,7 @@ return {
 	},
 
 	["SECRET??? Bike"] = {
-		ProductId = 3305650843,
+		ProductId = 3314400302,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -180,8 +180,8 @@ return {
 	},
 
 	-- // Robux-only Bikes
-	["Shrek"] = {
-		ProductId = 3306066042,
+	["The BEAST"] = {
+		ProductId = 3314400178,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -202,8 +202,8 @@ return {
 				)
 				return
 			end
-			OpenSlot:SetAttribute("Bike", "Shrek")
-			local _bike = Bike.new("Shrek", "ROBUX", CFrame.new(0, 0, 0))
+			OpenSlot:SetAttribute("Bike", "The BEAST")
+			local _bike = Bike.new("The BEAST", "ROBUX", CFrame.new(0, 0, 0))
 			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
 			_bike.PurchasePlayer = Player
 			_bike.CurrentStand = OpenSlot
@@ -212,8 +212,8 @@ return {
 		end,
 	},
 
-	["DaBaby Car"] = {
-		ProductId = 3306066199,
+	["The BIG BOI"] = {
+		ProductId = 3314400170,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -234,8 +234,8 @@ return {
 				)
 				return
 			end
-			OpenSlot:SetAttribute("Bike", "DaBaby Car")
-			local _bike = Bike.new("DaBaby Car", "ROBUX", CFrame.new(0, 0, 0))
+			OpenSlot:SetAttribute("Bike", "The BIG BOI")
+			local _bike = Bike.new("The BIG BOI", "ROBUX", CFrame.new(0, 0, 0))
 			_bike.Model:SetAttribute("ID", HttpService:GenerateGUID(false))
 			_bike.PurchasePlayer = Player
 			_bike.CurrentStand = OpenSlot
@@ -246,7 +246,7 @@ return {
 
 	-- // Chests/crates
 	["Mythical Chest"] = {
-		ProductId = 3306060731,
+		ProductId = 3314400258,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -286,7 +286,7 @@ return {
 		end,
 	},
 	["Bike Crate"] = {
-		ProductId = 3306060209,
+		ProductId = 3314400192,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -297,19 +297,19 @@ return {
 				["Epic"] = {
 					Rarity = 65,
 					Spawns = {
-						["Floppa"] = {
+						["Blue 450"] = {
 							Price = 12500,
 							Income = 125,
 						},
-						["Nyan Cat"] = {
+						["Red 450"] = {
 							Price = 15000,
 							Income = 150,
 						},
-						["Sigma"] = {
+						["New Retro"] = {
 							Price = 25000,
 							Income = 250,
 						},
-						["Capybara"] = {
+						["Bzzzz Bike"] = {
 							Price = 45000,
 							Income = 450,
 						},
@@ -318,63 +318,55 @@ return {
 				["Legendary"] = {
 					Rarity = 30,
 					Spawns = {
-						["John Pork"] = {
+						["Yellow 250"] = {
 							Price = 120000,
 							Income = 1200,
 						},
-						["Walter"] = {
+						["Stunter"] = {
 							Price = 215000,
 							Income = 2150,
 						},
-						["Smurf Cat"] = {
+						["New Stunter"] = {
 							Price = 300000,
 							Income = 3000,
-						},
-						["El Gato"] = {
-							Price = 375000,
-							Income = 3750,
 						},
 					},
 				},
 				["Mythical"] = {
 					Rarity = 6,
 					Spawns = {
-						["Tim Cheese"] = {
+						["Dyna"] = {
 							Price = 700000,
 							Income = 5000,
 						},
-						["Sprunki"] = {
+						["R3"] = {
 							Price = 1000000,
 							Income = 7500,
 						},
-						["Hampter"] = {
+						["Scout"] = {
 							Price = 1750000,
 							Income = 12500,
 						},
 					},
 				},
-				["Omega"] = {
+				["Celestial"] = {
 					Rarity = 3,
 					Spawns = {
-						["Turi ip ip ip"] = {
+						["F41"] = {
 							Price = 3000000,
 							Income = 20000,
 						},
-						["Gegagedigedagedago"] = {
+						["Ninja 400"] = {
 							Price = 5000000,
 							Income = 35000,
-						},
-						["Tung Tung"] = {
-							Price = 10000000,
-							Income = 80000,
 						},
 					},
 				},
 				["SECRET???"] = {
 					Rarity = 1,
 					Spawns = {
-						["Chicken Jockey"] = {
-							Price = 99000000,
+						["636"] = {
+							Price = 99_000_000,
 							Income = 200000,
 						},
 					},
@@ -394,7 +386,7 @@ return {
 						adjustedSpawns[name].Rarity = value.Rarity * math.min(LuckMultiplier, 2)
 					elseif name == "Mythical" then
 						adjustedSpawns[name].Rarity = value.Rarity * LuckMultiplier
-					elseif name == "Omega" or name == "SECRET???" then
+					elseif name == "Celestial" or name == "SECRET???" then
 						adjustedSpawns[name].Rarity = value.Rarity * (LuckMultiplier * 1.5)
 					end
 				end
@@ -449,7 +441,7 @@ return {
 
 	-- // Server luck
 	["x2 Luck"] = {
-		ProductId = 3302030360,
+		ProductId = 3314400360,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -478,7 +470,7 @@ return {
 		end,
 	},
 	["x4 Luck"] = {
-		ProductId = 3302030707,
+		ProductId = 3314400373,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -499,7 +491,7 @@ return {
 		end,
 	},
 	["x8 Luck"] = {
-		ProductId = 3302030706,
+		ProductId = 3314400383,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -520,7 +512,7 @@ return {
 		end,
 	},
 	["x16 Luck"] = {
-		ProductId = 3302031086,
+		ProductId = 3314400329,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -543,7 +535,7 @@ return {
 
 	-- // Cash
 	["Double Offline Cash"] = {
-		ProductId = 3306164962,
+		ProductId = 3314400083,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -565,7 +557,7 @@ return {
 	},
 
 	["Money Pack 1"] = {
-		ProductId = 3301582459,
+		ProductId = 3314400198,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -577,7 +569,7 @@ return {
 		end,
 	},
 	["Money Pack 2"] = {
-		ProductId = 3301582458,
+		ProductId = 3314400206,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -589,7 +581,7 @@ return {
 		end,
 	},
 	["Money Pack 3"] = {
-		ProductId = 3301582457,
+		ProductId = 3314400214,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -601,7 +593,7 @@ return {
 		end,
 	},
 	["Money Pack 4 (MOST POPULAR)"] = {
-		ProductId = 3301582456,
+		ProductId = 3314400230,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")
@@ -613,7 +605,7 @@ return {
 		end,
 	},
 	["Money Pack 5 (BEST DEAL)"] = {
-		ProductId = 3301583025,
+		ProductId = 3314400248,
 		Callback = function(Player: Player)
 			-- // Services
 			local ServerScriptService = game:GetService("ServerScriptService")

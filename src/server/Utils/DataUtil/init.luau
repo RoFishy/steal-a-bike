@@ -240,7 +240,7 @@ function DataUtil:AddBikeToPlayer(Player: Player, BikeObj)
 			local Text = "You have discovered the " .. BikeObj.Name .. " Bike! It has been added to your Index."
 			if BikeObj.Special then
 				Text =
-					`You have discovered the {string.upper(Bike.Special)} {BikeObj.Name}! It has been added to your {BikeObj.Special} Index.`
+					`You have discovered the {string.upper(BikeObj.Special)} {BikeObj.Name}! It has been added to your {BikeObj.Special} Index.`
 			end
 			Remotes.ShowNotification:FireClient(Player, Text, Color3.fromRGB(0, 217, 255))
 		end
@@ -263,7 +263,6 @@ function DataUtil:LoadBikes(Player: Player)
 				continue
 			end
 			OpenSlot:SetAttribute("Bike", Slot.Name)
-			print(Slot.Special)
 			local _bike = Bike.new(Slot.Name, Slot.Rarity, CFrame.new(0, 0, 0), Slot.Special, true)
 			BikeReferences[ID] = _bike.Model
 			_bike.Model:SetAttribute("ID", ID)

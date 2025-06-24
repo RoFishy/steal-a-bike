@@ -101,7 +101,8 @@ function BaseManager:Start()
 					return
 				end
 				if not table.find(self.WhitelistedPlayers[Base.Name], Player) then
-					Player:Kick("Anticheat - Attempted to noclip into wrong base.")
+					--Player:Kick("Anticheat - Attempted to noclip into wrong base.")
+					print(Player.Name .. " tried to noclip into wrong base!")
 				end
 			end
 		end)
@@ -381,7 +382,7 @@ function BaseManager:AssignBase(Player: Player, Base: string)
 		CashMultiText.Text = `Cash Multiplier: {Multiplier}x`
 	end)
 
-	SignGui:FindFirstChildOfClass("TextLabel").Text = `{Player.Name}'s Base`
+	SignGui:FindFirstChildOfClass("TextLabel").Text = `{Player.Name}'s Dealership`
 	self:TeleportPlayerToBase(Player, BaseName)
 
 	-- // Physics
@@ -441,7 +442,7 @@ function BaseManager:ResetBase(Base: string)
 		collectAt.Billboard.Frame.amount.Text = "$0"
 	end
 
-	SignGui:FindFirstChildOfClass("TextLabel").Text = `Unclaimed Base`
+	SignGui:FindFirstChildOfClass("TextLabel").Text = `Unclaimed Dealership`
 	if not CurrentBikes then
 		return
 	end

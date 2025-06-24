@@ -12,8 +12,6 @@ return {
 			["Slowped"] = {
 				Price = 200,
 				Income = 2,
-
-				Sound = 6425216149,
 			},
 			["Green Mini Dirtbike"] = {
 				Price = 250,
@@ -130,11 +128,11 @@ return {
 	["ROBUX"] = {
 		Rarity = 0,
 		Spawns = {
-			["Shrek"] = {
+			["The BIG BOI"] = {
 				Price = 0,
 				Income = 250_000,
 			},
-			["DaBaby Car"] = {
+			["The BEAST"] = {
 				Price = 0,
 				Income = 500_000,
 			},

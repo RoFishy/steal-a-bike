@@ -22,7 +22,7 @@ local ConveyorSystem = workspace.ConveyorSystem
 local StartPart = ConveyorSystem.Spawn
 local EndPart = ConveyorSystem.End
 
-local TimersScreen = workspace.Spawn.Timers.Screen
+local TimersScreen = workspace.Spawn.Timers
 
 local GuaranteedRequirements = {
 	Mythical = 900,
@@ -170,7 +170,7 @@ function SpawnManager:Start()
 		local RandomSpawn =
 			IndexDictionary(Spawns[Rarity]["Spawns"], math.random(1, GetDictionaryLength(Spawns[Rarity]["Spawns"])))
 		local Chance = GetSpecialChance()
-		Chance = nil
+		--Chance = nil
 
 		local ModelId = HttpService:GenerateGUID(false)
 		CurrentBikes[ModelId] =

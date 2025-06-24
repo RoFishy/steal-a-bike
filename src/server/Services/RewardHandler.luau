@@ -37,13 +37,13 @@ function RewardHandler:Start()
 			return Remotes.ShowNotification:FireClient(Player, "You have not completed all of the requirements!")
 		end
 		DataUtil:SetFreePetClaimed(Player)
-		local _bike = Bike.new("Floppa", "Epic", CFrame.new(0, 0, 0))
+		local _bike = Bike.new("Bzzzz Bike", "Epic", CFrame.new(0, 0, 0))
 		_bike.Model:SetAttribute("ID", game:GetService("HttpService"):GenerateGUID(false))
 		_bike.PurchasePlayer = Player
 		_bike.CurrentStand = OpenSlot
 		task.cancel(_bike.CurrentMove)
 		_bike:AddToSlot(OpenSlot)
-		return Remotes.ShowNotification:FireClient(Player, "You have claimed a free Floppa!")
+		return Remotes.ShowNotification:FireClient(Player, "You have claimed a free Bzzzz Bike!")
 	end)
 end
 

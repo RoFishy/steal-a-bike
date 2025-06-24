@@ -126,7 +126,7 @@ function Index:SetBikes()
 			BikeFrame.name.Text = "???"
 		end
 	end
-	AmountFound.Text = `{TotalCollected}/98`
+	AmountFound.Text = `{TotalCollected}/24`
 end
 
 function Index:Stop()

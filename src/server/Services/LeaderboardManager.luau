@@ -1,6 +1,7 @@
 -- // Services
 local Players = game:GetService("Players")
 local DataStoreService = game:GetService("DataStoreService")
+local UserService = game:GetService("UserService")
 
 -- // Ordered DS
 local StealsOrderedDS = DataStoreService:GetOrderedDataStore("OrderedSteals")
@@ -74,7 +75,7 @@ end
 function LeaderboardManager:RefreshLeaderboard(Name: "Cash" | "Steal")
 	local Leaderboard = LeaderboardsFolder[Name]
 
-	local MainContents = Leaderboard.main.SurfaceGui.Frame.Contents.Items
+	local MainContents = Leaderboard.Main.LeaderboardGui.List
 
 	self:ClearFrame(MainContents)
 
@@ -86,22 +87,38 @@ function LeaderboardManager:RefreshLeaderboard(Name: "Cash" | "Steal")
 		Pages = StealsOrderedDS:GetSortedAsync(false, 100, 0, 10e30)
 	end
 	local leaderboardData = Pages:GetCurrentPage()
-
 	for rank, data in leaderboardData do
 		local Template = MainContents.Template:Clone()
 		local PlayerName = GetPlayerName(data.key)
 		if not PlayerName then
 			continue
 		end
-		Template.Name = data.key
-		Template.name.Text = PlayerName
-		Template.LayoutOrder = rank
-		Template.place.Text = "#" .. rank
-		Template.amount.Text = FormatNumber(data.value)
-		Template.avatar.Image =
+		local PlayerThumbnail =
 			Players:GetUserThumbnailAsync(data.key, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
+		Template.Name = data.key
+		Template.Current.Username.Text = PlayerName
+		Template.LayoutOrder = rank
+		Template.Current.Rank.Text = "#" .. rank
+		Template.Current.Value.Text = FormatNumber(data.value)
+		Template.Current.Icon.Image = PlayerThumbnail
+		Template.Current.Iconback.Image = PlayerThumbnail
+
+		local success, result = pcall(function()
+			return UserService:GetUserInfosByUserIdsAsync({ tonumber(data.key) })
+		end)
+
+		if success then
+			for _, Data in ipairs(result) do
+				Template.Current.DisplayName.Text = Data.DisplayName
+			end
+		end
+
 		if RANK_COLORS[rank] then
-			Template.place.TextColor3 = RANK_COLORS[rank]
+			Template.Current.Rank.TextColor3 = RANK_COLORS[rank]
+			Template.Current.UIGradient.Color = ColorSequence.new({
+				ColorSequenceKeypoint.new(0, RANK_COLORS[rank]),
+				ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255)),
+			})
 		end
 		Template.Parent = MainContents
 		Template.Visible = true

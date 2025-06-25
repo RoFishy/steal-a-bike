@@ -6,6 +6,7 @@ local DataStoreService = game:GetService("DataStoreService")
 -- // shared modules
 local Modules = ReplicatedStorage.Modules
 local Types = require(Modules.Types)
+local Spawns = require(Modules.Spawns)
 
 -- // Modules
 local DataTemplate = require(script.Template)
@@ -214,6 +215,24 @@ function DataUtil:UpdatePlayersPurchasingBikes(NewTable: {})
 	PlayersPurchasingBikes = NewTable
 end
 
+function DataUtil:SetTotalValue(Player: Player)
+	local CurrentSlots = self:GetCurrentBikes(Player)
+	local TotalValue = 0
+
+	local Value = Player:FindFirstChild("TotalValue") or Instance.new("IntValue")
+	Value.Name = "TotalValue"
+	Value.Parent = Player
+
+	for _, Slot in CurrentSlots do
+		local BikeInfo = Spawns[Slot.Rarity]["Spawns"][Slot.Name]
+		local BikeCost = BikeInfo.Price
+
+		TotalValue += BikeCost
+	end
+
+	Value.Value = TotalValue
+end
+
 function DataUtil:AddBikeToPlayer(Player: Player, BikeObj)
 	local Profile = Profiles[Player]
 	if Profile then
@@ -244,6 +263,7 @@ function DataUtil:AddBikeToPlayer(Player: Player, BikeObj)
 			end
 			Remotes.ShowNotification:FireClient(Player, Text, Color3.fromRGB(0, 217, 255))
 		end
+		self:SetTotalValue(Player)
 	end
 end
 
@@ -280,6 +300,7 @@ function DataUtil:LoadBikes(Player: Player)
 				end
 			end)
 		end
+		self:SetTotalValue(Player)
 		task.delay(3, function()
 			if CurrentOfflineCash > 0 then
 				Remotes.DoubleCashFrame:FireClient(Player, CurrentOfflineCash)
